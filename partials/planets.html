@@ -5,9 +5,9 @@
 		<ul>
 			<li ng-repeat="resident in planet.residents" >
 				<!-- show this a-tag only if the value of "viewed" in the resident is false -->
-				<a ui-sref="resident({id: resident.id})" ng-click="charactres.indexOf(this.id)" ng-hide="resident.viewed">Resident XX</a>
+				<a ui-sref="character({id: resident.id})" ng-click="charactres.indexOf(this.id)" ng-hide="resident.viewed">Resident XX</a>
 				<!-- show this a-tag only if the value of "viewed" in the resident is true -->
-				<a ui-sref="resident({id: resident.id})" ng-show="resident.viewed">Resident {{resident.id}} -- {{resident.url}}</a>
+				<a ui-sref="character({id: resident.id})" ng-show="resident.viewed">Resident {{resident.id}} -- {{resident.url}}</a>
 				</li>
 			</ul>
 	</li>
