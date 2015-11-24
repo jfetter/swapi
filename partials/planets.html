@@ -4,8 +4,8 @@
 		{{planet.name}} -- {{planet.population}} 
 		<ul>
 			<li ng-repeat="resident in planet.residents" >
-				<a ui-sref="resident({id: resident.id})" ng-hide="viewed()">XX</a>
-				<a ui-sref="resident({id: resident.id})" ng-show="view()">Resident {{resident.id}} -- {{resident.url}}</a>
+				<a ui-sref="resident({id: resident.id})" ng-click="charactres.indexOf(this.id)" ng-hide="ng-class="viewed">Resident XX</a>
+				<a ui-sref="resident({id: resident.id})" ng-show="charactres.indexOf(this.id)">Resident {{resident.id}} -- {{resident.url}}</a>
 				</li>
 			</ul>
 	</li>
