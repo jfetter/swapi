@@ -1,12 +1,6 @@
 <h1>Welcome To {{character}};s Planet</h1>
 <ul>
-	<li ng-repeat="character in characters">
-		{{planet.name}} -- {{planet.population}} 
-		<ul>
-			<li ng-repeat="resident in planet.residents" >
-				<a ui-sref="resident({id: resident.id})" ng-click="charactres.indexOf(this.id)" ng-hide="ng-class="viewed">Resident XX</a>
-				<a ui-sref="resident({id: resident.id})" ng-show="charactres.indexOf(this.id)">Resident {{resident.id}} -- {{resident.url}}</a>
-				</li>
-			</ul>
-	</li>
+	<li>{{character.name}</li>
+	<li>{{character.gender}</li>
+	<li>{{character.birth_year}</li>
 </ul>

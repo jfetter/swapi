@@ -8,44 +8,43 @@ var app =  angular.module("swapiApp", ["ui.router"])
 app.controller("PlanetsController",  function( $scope, PlanetService){
 	console.log("INSIDE CONTROLLER")
 	$scope.getPlanets = function(){
-	PlanetService.getPlanets()
-	.then(function(res){
- 		$scope.planets = res.data.results.map( planet => {
- 			console.log(planet.residents);
-      planet.residents = planet.residents.map(resident => {
-          var resident = { url: resident };
-          resident.id = resident.url.match(/\d+/)[0];
-          console.log("RES", planet.residents, resident)
-          return resident;
-      });
-      PlanetService.planets.push(planet);
-      return planet;
-   		});
- 			console.log("SCOPED PLANETS", $scope.planet.residents)
-			console.log("SERVICED PLANETS", PlanetService.planets)
-    }).catch(error => console.error(error.status));
-
+		// if there is no planet data stored in the service 
+		// have the service do an http request...
+	if (PlanetService.planets.length < 1){
+		PlanetService.getPlanets()
+		.then(function(res){
+	 		$scope.planets = res.data.results.map( function(planet) {
+	 			console.log(planet.residents);
+	      planet.residents = planet.residents.map(function(resident) {
+	          var resident = { url: resident };
+	          resident.id = resident.url.match(/\d+/)[0];
+	          resident.viewed = false;
+	          console.log("RES", planet.residents, resident.viewed)
+	          return resident;
+	      });
+	      PlanetService.planets.push(planet);
+	      return planet;
+	   		});
+	    }).catch(error => console.error(error.status));
+		//if there is data in the PlanetService.planets use that data
+		// to populate the planets view
+		} else {
+			$scope.planets = PlanetService.planets
 		}
-	$scope.getPlanets();
-
-	$scope.viewed = function(){
-		PlanetsService.characters.push($scope.this.id)
-		$scope.class = viewed; 
-		console.log(characters)
 	}
+	$scope.getPlanets();
 });
 
-app.controller("ResidentCtrl", function($scope, $stateParams) {
-    $http.get("http://swapi.co/api/people/" + $stateParams.id + "/?format=json").then(resp => {
-        $scope.character = resp.data;
+app.controller("CharacterController", function($scope, PlanetService, $stateParams, $http) {
+    $http.get("http://swapi.co/api/people/" + $stateParams.id + "/?format=json").then(res => {
+        // change viewed boolen to false so the char name a tag will display on the planets page and
+        // the XX atag will be hidden 
+        PlanetService.characters.$stateParams.id.viewed = true; 
+        PlanetService.characters.push()
+        $scope.character = res.data;
     });
 })
 
-
-// configuration block: executed during provider configuration phase
-// only providers and constants can be injected into configuration --
-// to avoid accidentally calling on serices before they have been configured
-// this is the first thing that will run
 app.config(['$urlRouterProvider', "$stateProvider", function($urlRouterProvider, $stateProvider){
 	
 	$stateProvider
