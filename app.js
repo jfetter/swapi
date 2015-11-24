@@ -35,14 +35,18 @@ app.controller("PlanetsController",  function( $scope, PlanetService){
 	$scope.getPlanets();
 });
 
-app.controller("CharacterController", function($scope, PlanetService, $stateParams, $http) {
-    $http.get("http://swapi.co/api/people/" + $stateParams.id + "/?format=json").then(res => {
+app.controller("CharacterController", function($scope, PlanetService, $stateParams) {
+    $scope.getCharacters = function(){
+    PlanetService.getCharacters()
+    .then(function(res) {
         // change viewed boolen to false so the char name a tag will display on the planets page and
         // the XX atag will be hidden 
         PlanetService.characters.$stateParams.id.viewed = true; 
         PlanetService.characters.push()
         $scope.character = res.data;
     });
+  };
+  $scope.getCharacters();
 })
 
 app.config(['$urlRouterProvider', "$stateProvider", function($urlRouterProvider, $stateProvider){
@@ -67,7 +71,7 @@ app.service("PlanetService", function($http){
 
 this.getCharacters = function(){
 	return $http({
-		url: url, 
+		url: "http://swapi.co/api/people/" + $stateParams.id + "/?format=json",
 		method: "GET"
 	})
 }
